@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+    "name": "Your day quests",
+    "description": "Сomplete quests and upgrade your character not in the game, but in real life!!!",
+    "version": "1.0",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+
+    "icons": {
+        "16": "./task.png",
+        "48": "./task.png",
+        "128": "./task.png"
+    }
+}
