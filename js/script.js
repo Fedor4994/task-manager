@@ -3,16 +3,25 @@ const addButton = document.querySelector('.todo__add');
 const tasksList = document.querySelector('.todo__list');
 const deleteButton = document.querySelector('.todo__taks-delete');
 
-const tasks = [];
+let tasks = [];
+
+tasksRender(JSON.parse(localStorage.getItem('todo')));
+tasks = JSON.parse(localStorage.getItem('todo')).slice(0);
+// Если мы открываем расширение и хотим там увидеть ранее записаные задачи
+// то в этом куске кода я достаю из хранилища массив обьектов(твоих задач)
+// и отрисовую их в разметке + записываю сразу в массив, потому что он при каждом открытии будет опусташаться
 
 addButton.addEventListener('click', onAddButtonClick);
+// добавляю слушатель на кнопку добавления задачи
 
 function onAddButtonClick() {
   const newTaskText = addMessage.value;
   if (newTaskText) {
     addTask(newTaskText);
+    // добавляю новую задачу в массив + в хранилище
     addMessage.value = '';
-    tasksRender(tasks);
+    tasksRender(JSON.parse(localStorage.getItem('todo')));
+    // рендерю раметку по данным из хранилища
   }
 }
 // Выполняется когда нажимаем по кнопке
@@ -26,7 +35,8 @@ function addTask(text) {
   // Создание обьекта одной добавляемой задачи
 
   tasks.push(task);
-  // Добавление созданной задачи в массив задач
+  localStorage.setItem('todo', JSON.stringify(tasks));
+  // Добавление созданной задачи в массив задач и в хранилище
 }
 // Функция добавления задач
 
@@ -49,6 +59,7 @@ function tasksRender(list) {
     .join('');
 
   tasksList.innerHTML = html;
+  // суть отрисовки страницы, при добавлении каждой задачи, или изменении статуса задачи, они перерисовуются
 }
 
 tasksList.addEventListener('click', event => {
@@ -57,19 +68,23 @@ tasksList.addEventListener('click', event => {
     const task = event.target.parentElement.parentElement;
     const taskId = task.id;
     changeTaskStatus(taskId, isComplete);
-    tasksRender(tasks);
+    localStorage.setItem('todo', JSON.stringify(tasks));
+    tasksRender(JSON.parse(localStorage.getItem('todo')));
   }
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
-  // по чекбоксу - тогда выяняем выполнина ли задача
+  // по чекбоксу - тогда выясняем выполнина ли задача(меняем статус отовсюду, и хранилище, и массив, и разметка)
 
   if (event.target.tagName === 'IMG') {
     const task = event.target.parentElement;
     const taskId = task.id;
     deleteTaks(taskId);
-    tasksRender(tasks);
+    localStorage.setItem('todo', JSON.stringify(tasks));
+    tasksRender(JSON.parse(localStorage.getItem('todo')));
   }
+  // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
+  // по кнопке удаления - тогда удаляем задачу(отовсюду, и хранилище, и массив, и разметка)
 });
-//Функция вывода списка задач
+//Делегирование событий, для удаления\изменения статуса задач
 
 function changeTaskStatus(id, status) {
   tasks.forEach(task => {
@@ -78,7 +93,7 @@ function changeTaskStatus(id, status) {
     }
   });
 }
-// мееняем статус задачи
+// мееняем статус задачи в массиве
 
 function deleteTaks(id) {
   tasks.forEach((task, index) => {
@@ -87,59 +102,4 @@ function deleteTaks(id) {
     }
   });
 }
-
-// let addMessage = document.querySelector(".message"),
-//   addButton = document.querySelector(".add"),
-//   toDo = document.querySelector(".todo");
-
-// let toDoList = [];
-
-// if (localStorage.getItem("todo")) {
-//   toDoList = JSON.parse(localStorage.getItem("todo"));
-//   displayMessages();
-// }
-
-// addButton.addEventListener("click", onAddButtonClick);
-
-// function onAddButtonClick() {
-//   let newToDo = {
-//     todo: addMessage.value,
-//     checked: false,
-//     important: false,
-//   };
-
-//   toDoList.push(newToDo);
-//   displayMessages();
-
-//   localStorage.setItem("todo", JSON.stringify(toDoList));
-//   addMessage.value = "";
-// }
-
-// function displayMessages() {
-//   let displayMessage = "";
-//   toDoList.forEach((item, i) => {
-//     displayMessage += `
-//         <li>
-//           <input type="checkbox" id="item_${i}" ${
-//       item.checked ? "checked" : ""
-//     } />
-//           <label for="item_${i}">${item.todo}</label>
-//         </li>
-//         `;
-//     toDo.innerHTML = displayMessage;
-//   });
-// }
-
-// toDo.addEventListener("change", onListChange);
-
-// function onListChange(event) {
-//   let idInput = event.target.getAttribute("id");
-//   let forLable = toDo.querySelector("[for = " + idInput + "]");
-//   let valueLable = forLable.textContent;
-//   toDoList.forEach((item) => {
-//     if (item.todo === valueLable) {
-//       item.checked = !item.checked;
-//       localStorage.setItem("todo", JSON.stringify(toDoList));
-//     }
-//   });
-// }
+// удаляем задачу из массива
