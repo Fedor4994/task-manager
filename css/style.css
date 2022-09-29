@@ -115,6 +115,7 @@ body {
 /* При наведении на задачу появляется значок удаления */
 
 .todo__task-text {
+  cursor: default;
   flex-grow: 1;
   font-size: 20px;
   border: none;
