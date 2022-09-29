@@ -8,8 +8,8 @@
     },
 
     "icons": {
-        "16": "./task.png",
-        "48": "./task.png",
-        "128": "./task.png"
+        "16": "./image/task.png",
+        "48": "./image/task.png",
+        "128": "./image/task.png"
     }
 }

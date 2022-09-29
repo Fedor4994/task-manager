@@ -7,24 +7,38 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Task Manager</title>
   </head>
   <body>
-    <div class="container">
-      <div class="todo_list">
-        <h1>Daily quests</h1>
-        <div class="create_new_todo">
-          <input type="text" class="message" placeholder="Enter your quest" />
-          <button class="add">Create</button>
-        </div>
-
-        <div class="wrapper">
-          <ul class="todo"></ul>
+    <div class="todo">
+      <div class="todo__content">
+        <h1 class="todo__title">Daily Tasks</h1>
+        <div class="todo__new">
+          <input type="text" class="todo__message" placeholder="Enter your task" />
+          <button class="todo__add">+</button>
         </div>
       </div>
-    </div>
 
-    <script src="./popup.js" type="module"></script>
+      <ul class="todo__list list">
+        <li class="todo__task">
+          <label class="todo__checkbox">
+            <input type="checkbox" />
+            <div></div>
+          </label>
+          <span class="todo__task-text">Lorem ipsum dolor</span>
+          <img class="todo__taks-delete" src="./image/Vector.svg" alt="delete-btn" />
+        </li>
+        <li class="todo__task">
+          <label class="todo__checkbox">
+            <input type="checkbox" />
+            <div></div>
+          </label>
+          <span class="todo__task-text">Lorem ipsum dolor</span>
+          <img class="todo__taks-delete" src="./image/Vector.svg" alt="delete-btn" />
+        </li>
+      </ul>
+    </div>
+    <script src="./js/script.js" type="module"></script>
   </body>
 </html>
