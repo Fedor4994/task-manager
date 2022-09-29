@@ -45,7 +45,7 @@ body {
   font-size: 18px;
   font-weight: 300;
   background-color: var(--accent-color);
-  padding: 15px;
+  padding: 20px;
 }
 
 .todo {
@@ -53,14 +53,13 @@ body {
   padding: 30px;
   background: #ffffff;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
 }
 
 .todo__new {
   display: flex;
   align-items: center;
   margin-top: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
 }
 
 .todo__message {
@@ -89,12 +88,13 @@ body {
 }
 
 .todo__list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .todo__task {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   cursor: default;
@@ -139,8 +139,8 @@ body {
 
 .todo__checkbox div {
   cursor: pointer;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border: 1px solid var(--accent-color);
   border-radius: 4px;
   position: relative;
@@ -175,4 +175,20 @@ body {
   display: none;
   cursor: pointer;
   margin-right: 8px;
+}
+
+.delete-all-btn {
+  display: none;
+  margin-left: auto;
+  min-width: 100px;
+  font-weight: 200;
+  font-size: 12px;
+  line-height: 1.87;
+
+  color: #ffffff;
+  background: red;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 2px 4px;
 }

@@ -2,17 +2,29 @@ const addMessage = document.querySelector('.todo__message');
 const addButton = document.querySelector('.todo__add');
 const tasksList = document.querySelector('.todo__list');
 const deleteButton = document.querySelector('.todo__taks-delete');
+const deleteAllButton = document.querySelector('.delete-all-btn');
 
 let tasks = [];
 
-tasksRender(JSON.parse(localStorage.getItem('todo')));
-tasks = JSON.parse(localStorage.getItem('todo')).slice(0);
+if (localStorage.getItem('todo')) {
+  tasksRender(JSON.parse(localStorage.getItem('todo')));
+  tasks = JSON.parse(localStorage.getItem('todo')).slice(0);
+}
+
 // Если мы открываем расширение и хотим там увидеть ранее записаные задачи
 // то в этом куске кода я достаю из хранилища массив обьектов(твоих задач)
 // и отрисовую их в разметке + записываю сразу в массив, потому что он при каждом открытии будет опусташаться
 
 addButton.addEventListener('click', onAddButtonClick);
 // добавляю слушатель на кнопку добавления задачи
+
+deleteAllButton.addEventListener('click', () => {
+  localStorage.setItem('todo', '');
+  tasks = [];
+  tasksList.innerHTML = '';
+  deleteAllButton.style.display = 'none';
+});
+// Функционал кнопки удаления всех задач
 
 function onAddButtonClick() {
   const newTaskText = addMessage.value;
@@ -61,6 +73,13 @@ function tasksRender(list) {
 
   tasksList.innerHTML = html;
   // суть отрисовки страницы, при добавлении каждой задачи, или изменении статуса задачи, они перерисовуются
+
+  if (localStorage.getItem('todo') !== '[]') {
+    deleteAllButton.style.display = 'block';
+  } else {
+    deleteAllButton.style.display = 'none';
+  }
+  // отображает кнопку удаления всего, если есть какая то задача в списке
 }
 
 tasksList.addEventListener('click', event => {
