@@ -52,7 +52,8 @@ function tasksRender(list) {
             <input type="checkbox" ${checked} />
             <div></div>
           </label>
-          <span class="todo__task-text">${task.text}</span>
+          <input type="text" class="todo__task-text" value="${task.text}" readonly>
+          <img class="todo__task-edit" src="./image/edit_pencil.svg" alt="edit-btn" />
           <img class="todo__taks-delete" src="./image/Vector.svg" alt="delete-btn" />
         </li>`;
     })
@@ -74,7 +75,7 @@ tasksList.addEventListener('click', event => {
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по чекбоксу - тогда выясняем выполнина ли задача(меняем статус отовсюду, и хранилище, и массив, и разметка)
 
-  if (event.target.tagName === 'IMG') {
+  if (event.target.classList.contains('todo__taks-delete')) {
     const task = event.target.parentElement;
     const taskId = task.id;
     deleteTaks(taskId);
@@ -83,6 +84,14 @@ tasksList.addEventListener('click', event => {
   }
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по кнопке удаления - тогда удаляем задачу(отовсюду, и хранилище, и массив, и разметка)
+
+  // if (event.target.classList.contains('todo__task-edit')) {
+  //   const task = event.target.parentElement;
+  //   const taskId = task.id;
+  //   editTask(taskId);
+  //   localStorage.setItem('todo', JSON.stringify(tasks));
+  //   tasksRender(JSON.parse(localStorage.getItem('todo')));
+  // }
 });
 //Делегирование событий, для удаления\изменения статуса задач
 
@@ -103,3 +112,14 @@ function deleteTaks(id) {
   });
 }
 // удаляем задачу из массива
+
+// function editTask(id) {
+//   tasks.forEach(task => {
+//     if (task.id == id) {
+//       const liEl = document.getElementById(id);
+//       const inputEl = liEl.querySelector('.todo__task-text');
+//       inputEl.removeAttribute('readonly');
+//       inputEl.focus();
+//     }
+//   });
+// }
