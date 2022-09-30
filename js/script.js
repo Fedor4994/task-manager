@@ -3,6 +3,7 @@ const addButton = document.querySelector('.todo__add');
 const tasksList = document.querySelector('.todo__list');
 const deleteButton = document.querySelector('.todo__taks-delete');
 const deleteAllButton = document.querySelector('.delete-all-btn');
+const saveBtn = document.querySelector('.save__btn');
 
 let tasks = [];
 
@@ -104,11 +105,14 @@ tasksList.addEventListener('click', event => {
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по кнопке удаления - тогда удаляем задачу(отовсюду, и хранилище, и массив, и разметка)
 
-  // if (event.target.classList.contains('todo__task-edit')) {
-  //   const task = event.target.parentElement;
-  //   const taskId = task.id;
-  //   editTask(task, taskId);
-  // }
+  if (event.target.classList.contains('todo__task-edit')) {
+    const task = event.target.parentElement;
+    const taskId = task.id;
+    saveBtn.style.display = 'block';
+    editTask(task, taskId);
+  }
+  // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
+  // по кнопке редактирования - тогда редактируем задачу(отовсюду, и хранилище, и массив, и разметка)
 });
 //Делегирование событий, для удаления\изменения статуса задач
 
@@ -130,36 +134,24 @@ function deleteTaks(id) {
 }
 // удаляем задачу из массива
 
-// function editTask(taskEl, id) {
-//   tasks.forEach((task, index) => {
-//     if (task.id == id) {
-//       const inputEl = taskEl.querySelector('.todo__task-text');
-//       const inputValue = inputEl.value;
-//       addMessage.value = inputValue;
-//       addButton.textContent = '✓';
-//       addButton.removeEventListener('click', onAddButtonClick);
-//       addButton.addEventListener('click', onRenameButtonClick);
-
-//       function onRenameButtonClick() {
-//         console.log(addMessage.value);
-//         inputEl.value = addMessage.value;
-//         task.text = addMessage.value;
-//         addButton.textContent = '+';
-
-//         localStorage.setItem('todo', JSON.stringify(tasks));
-//         tasksRender(JSON.parse(localStorage.getItem('todo')));
-//       }
-//     }
-//   });
-// }
-
-// function editTask(id) {
-//   tasks.forEach(task => {
-//     if (task.id == id) {
-//       const liEl = document.getElementById(id);
-//       const inputEl = liEl.querySelector('.todo__task-text');
-//       inputEl.removeAttribute('readonly');
-//       inputEl.focus();
-//     }
-//   });
-// }
+function editTask(taskEl, id) {
+  const editBtn = taskEl.querySelector('.todo__task-edit');
+  // кнопочке редактирования удалять и добавлять дисплей ноне, в зависимисти от ситуации
+  tasks.forEach(task => {
+    if (task.id == id) {
+      addMessage.value = task.text;
+      addMessage.focus();
+      // Вкидываем в инпут текст выбранной для редактируемой задачи и фокусируемся на нем
+      saveBtn.addEventListener('click', () => {
+        task.text = addMessage.value;
+        addMessage.value = '';
+        localStorage.setItem('todo', JSON.stringify(tasks));
+        tasksRender(JSON.parse(localStorage.getItem('todo')));
+        task = '';
+        saveBtn.style.display = 'none';
+      });
+      // Когда нажимвем по кнопке сохранения, перерисовуем наш массив, с отредактировной таской
+    }
+  });
+}
+// редактируем задачу

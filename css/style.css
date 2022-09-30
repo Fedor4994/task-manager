@@ -178,11 +178,16 @@ body {
   margin-right: 8px;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
 .delete-all-btn {
   display: none;
   margin-left: auto;
   min-width: 100px;
-  font-weight: 200;
+  font-weight: 700;
   font-size: 12px;
   line-height: 1.87;
 
@@ -192,4 +197,19 @@ body {
   border-radius: 8px;
   cursor: pointer;
   padding: 2px 4px;
+}
+
+.save__btn {
+  display: none;
+  min-width: 100px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.87;
+
+  color: #ffffff;
+  background: green;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 2px 8px;
 }
