@@ -107,9 +107,7 @@ tasksList.addEventListener('click', event => {
   // if (event.target.classList.contains('todo__task-edit')) {
   //   const task = event.target.parentElement;
   //   const taskId = task.id;
-  //   editTask(taskId);
-  //   localStorage.setItem('todo', JSON.stringify(tasks));
-  //   tasksRender(JSON.parse(localStorage.getItem('todo')));
+  //   editTask(task, taskId);
   // }
 });
 //Делегирование событий, для удаления\изменения статуса задач
@@ -131,6 +129,29 @@ function deleteTaks(id) {
   });
 }
 // удаляем задачу из массива
+
+// function editTask(taskEl, id) {
+//   tasks.forEach((task, index) => {
+//     if (task.id == id) {
+//       const inputEl = taskEl.querySelector('.todo__task-text');
+//       const inputValue = inputEl.value;
+//       addMessage.value = inputValue;
+//       addButton.textContent = '✓';
+//       addButton.removeEventListener('click', onAddButtonClick);
+//       addButton.addEventListener('click', onRenameButtonClick);
+
+//       function onRenameButtonClick() {
+//         console.log(addMessage.value);
+//         inputEl.value = addMessage.value;
+//         task.text = addMessage.value;
+//         addButton.textContent = '+';
+
+//         localStorage.setItem('todo', JSON.stringify(tasks));
+//         tasksRender(JSON.parse(localStorage.getItem('todo')));
+//       }
+//     }
+//   });
+// }
 
 // function editTask(id) {
 //   tasks.forEach(task => {
