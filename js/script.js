@@ -65,17 +65,19 @@ function addTask(text) {
 function tasksRender(list) {
   const html = list
     .map(task => {
+      // деструктуризация обьекта task
+      const { id, text, isComplete } = task;
       // добавление класса выполненой задачи, если она выполнена
-      let cls = task.isComplete ? 'todo__task todo__task-complete' : 'todo__task';
+      let cls = isComplete ? 'todo__task todo__task-complete' : 'todo__task';
       // добавление атрибута поставленного чекбокса, если его поставили
-      const checked = task.isComplete ? 'checked' : '';
+      const checked = isComplete ? 'checked' : '';
 
-      return `<li id="${task.id}" class="${cls}">
+      return `<li id="${id}" class="${cls}">
           <label class="todo__checkbox">
             <input type="checkbox" ${checked} />
             <div></div>
           </label>
-          <input type="text" class="todo__task-text" value="${task.text}" readonly>
+          <input type="text" class="todo__task-text" value="${text}" readonly>
           <img class="todo__task-edit" src="./image/edit_pencil.svg" alt="edit-btn" />
           <img class="todo__taks-delete" src="./image/Vector.svg" alt="delete-btn" />
         </li>`;
