@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap');
 /* Добавляю шрифт для всего документа */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap');
 
+/* Стандартный стили */
 * {
   margin: 0;
   box-sizing: border-box;
 }
-/* Стандартный стили */
 
+/* Сброс стилей */
 h1,
 h2,
 h3,
@@ -33,12 +34,11 @@ img {
 .link {
   text-decoration: none;
 }
-/* Сброс стилей */
 
+/* Переменные для стилей */
 :root {
   --accent-color: #2196f3;
 }
-/* Переменные для стилей */
 
 body {
   font-family: 'Nunito', sans-serif;
@@ -100,19 +100,19 @@ body {
   cursor: default;
 }
 
+/* Класс для выполненых дел */
 .todo__task-complete .todo__task-text {
   text-decoration: line-through;
   color: #b5b5b5;
 }
-/* Класс для выполненых дел */
 
+/* При наведении на задачу появляется значок удаления */
 .todo__task:hover .todo__task-edit {
   display: block;
 }
 .todo__task:hover .todo__taks-delete {
   display: block;
 }
-/* При наведении на задачу появляется значок удаления */
 
 .todo__task-text {
   cursor: default;
@@ -147,6 +147,7 @@ body {
   position: relative;
 }
 
+/* Кастомный чекбокс */
 .todo__checkbox div::after {
   content: '\1F5F8';
   position: absolute;
@@ -154,14 +155,12 @@ body {
   display: none;
   font-weight: 700;
   color: #ffffff;
+  /* Растягиваем содержимое чекбокса на всю его область */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  /* Растягиваем содержимое чекбокса на всю его область */
 }
-
-/* Кастомный чекбокс */
 
 .todo__taks-delete {
   display: none;
