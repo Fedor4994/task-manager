@@ -108,8 +108,7 @@ tasksList.addEventListener('click', event => {
   if (event.target.classList.contains('todo__task-edit')) {
     const task = event.target.parentElement;
     const taskId = task.id;
-    saveBtn.style.display = 'block';
-    editTask(task, taskId);
+    editTask(taskId);
   }
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по кнопке редактирования - тогда редактируем задачу(отовсюду, и хранилище, и массив, и разметка)
@@ -134,24 +133,29 @@ function deleteTaks(id) {
 }
 // удаляем задачу из массива
 
-function editTask(taskEl, id) {
-  const editBtn = taskEl.querySelector('.todo__task-edit');
-  // кнопочке редактирования удалять и добавлять дисплей ноне, в зависимисти от ситуации
-  tasks.forEach(task => {
-    if (task.id == id) {
-      addMessage.value = task.text;
-      addMessage.focus();
-      // Вкидываем в инпут текст выбранной для редактируемой задачи и фокусируемся на нем
-      saveBtn.addEventListener('click', () => {
-        task.text = addMessage.value;
-        addMessage.value = '';
-        localStorage.setItem('todo', JSON.stringify(tasks));
-        tasksRender(JSON.parse(localStorage.getItem('todo')));
-        task = '';
-        saveBtn.style.display = 'none';
-      });
-      // Когда нажимвем по кнопке сохранения, перерисовуем наш массив, с отредактировной таской
-    }
-  });
+function editTask(id) {
+  if (addMessage.value === '') {
+    addButton.style.display = 'none';
+    saveBtn.style.display = 'block';
+    // кнопочке сохранения и добавляения удалять и добавлять дисплей ноне, в зависимисти от ситуации
+
+    tasks.forEach(task => {
+      if (task.id == id) {
+        addMessage.value = task.text;
+        addMessage.focus();
+        // Вкидываем в инпут текст выбранной для редактируемой задачи и фокусируемся на нем
+        saveBtn.addEventListener('click', () => {
+          task.text = addMessage.value;
+          addMessage.value = '';
+          localStorage.setItem('todo', JSON.stringify(tasks));
+          tasksRender(JSON.parse(localStorage.getItem('todo')));
+          task = '';
+          saveBtn.style.display = 'none';
+          addButton.style.display = 'block';
+        });
+        // Когда нажимвем по кнопке сохранения, перерисовуем наш массив, с отредактировной таской
+      }
+    });
+  }
 }
 // редактируем задачу
