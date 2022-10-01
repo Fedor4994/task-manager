@@ -5,6 +5,13 @@ const deleteButton = document.querySelector('.todo__taks-delete');
 const deleteAllButton = document.querySelector('.delete-all-btn');
 const saveBtn = document.querySelector('.save__btn');
 
+window.addEventListener('keydown', sendAddMessage);
+function sendAddMessage(event) {
+  if (addButton.textContent === '+' && event.code === 'Enter') {
+    onAddButtonClick();
+  }
+}
+
 let tasks = [];
 
 if (localStorage.getItem('todo')) {
@@ -136,15 +143,27 @@ function deleteTaks(id) {
 function editTask(id) {
   if (addMessage.value === '') {
     addButton.style.display = 'none';
+    addButton.textContent = '-';
     saveBtn.style.display = 'block';
     // кнопочке сохранения и добавляения удалять и добавлять дисплей ноне, в зависимисти от ситуации
 
     tasks.forEach(task => {
       if (task.id == id) {
+        window.addEventListener('keydown', saveEditMessage);
+        function saveEditMessage(event) {
+          if (addButton.textContent === '-' && event.code === 'Enter') {
+            editMessage();
+          }
+        }
+        // Если мы находимся в режиме редактирования, то по нажатию Enter у нас происходит то же самое что
+        // и при нажатии saveBtn
+
         addMessage.value = task.text;
         addMessage.focus();
         // Вкидываем в инпут текст выбранной для редактируемой задачи и фокусируемся на нем
-        saveBtn.addEventListener('click', () => {
+
+        saveBtn.addEventListener('click', editMessage);
+        function editMessage() {
           task.text = addMessage.value;
           addMessage.value = '';
           localStorage.setItem('todo', JSON.stringify(tasks));
@@ -152,7 +171,8 @@ function editTask(id) {
           task = '';
           saveBtn.style.display = 'none';
           addButton.style.display = 'block';
-        });
+          addButton.textContent = '+';
+        }
         // Когда нажимвем по кнопке сохранения, перерисовуем наш массив, с отредактировной таской
       }
     });
