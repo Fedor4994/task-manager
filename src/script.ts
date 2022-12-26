@@ -31,46 +31,40 @@ deleteAllButton &&
     localStorage.setItem('todo', '');
     tasks = [];
     tasksList.innerHTML = '';
-    // deleteAllButton.style.display = 'none';
+    deleteAllButton.style.display = 'none';
   });
 
 //Делегирование событий, для удаления\изменения статуса задач
 tasksList.addEventListener('click', event => {
+  const target = event.target as HTMLInputElement;
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по чекбоксу - тогда выясняем выполнина ли задача(меняем статус отовсюду, и хранилище, и массив, и разметка)
-  const target = event.target as HTMLInputElement;
-  const task = target.parentElement;
-  console.log(target.parentElement);
-  const taskId = Number(task?.id);
-  const todoFromLocalStorage = localStorage.getItem('todo');
-
-  if (target && target.tagName === 'INPUT') {
-    const isComplete = target.checked;
+  if (target?.tagName === 'INPUT') {
+    const isComplete = target?.checked;
+    const task = target?.parentElement?.parentElement;
+    const taskId = Number(task?.id);
     changeTaskStatus(taskId, isComplete);
     localStorage.setItem('todo', JSON.stringify(tasks));
-    todoFromLocalStorage && tasksRender(JSON.parse(todoFromLocalStorage));
+    tasksRender(JSON.parse(localStorage.getItem('todo') || ''));
   }
 
   // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
   // по кнопке удаления - тогда удаляем задачу(отовсюду, и хранилище, и массив, и разметка)
-  if (target.classList.contains('todo__taks-delete')) {
+  if (target?.classList.contains('todo__taks-delete')) {
+    const task = target?.parentElement;
     const taskId = Number(task?.id);
     deleteTaks(taskId);
     localStorage.setItem('todo', JSON.stringify(tasks));
-    todoFromLocalStorage && tasksRender(JSON.parse(todoFromLocalStorage));
-  }
-
-  // Реализовываем деелгирование событий. Вешаем слушатель клика на на весь список дел, но только когда клик приходится
-  // по кнопке редактирования - тогда редактируем задачу(отовсюду, и хранилище, и массив, и разметка)
-  if (target.classList.contains('todo__task-edit')) {
-    editTask(taskId);
+    tasksRender(JSON.parse(localStorage.getItem('todo') || ''));
   }
 });
 
 // Выполняется когда нажимаем по кнопке
 function onAddButtonClick() {
   const newTaskText = addMessage.value;
+  console.log(345);
   if (newTaskText) {
+    console.log(123);
     // добавляю новую задачу в массив + в хранилище
     addTask(newTaskText);
     addMessage.value = '';
@@ -110,7 +104,6 @@ function tasksRender(list: Todo[]) {
             <div></div>
           </label>
           <input type="text" class="todo__task-text" value="${text}" readonly>
-          <img class="todo__task-edit" src="./image/edit_pencil.svg" alt="edit-btn" />
           <img class="todo__taks-delete" src="./image/Vector.svg" alt="delete-btn" />
         </li>`;
     })
@@ -147,52 +140,3 @@ function deleteTaks(id: number) {
     }
   });
 }
-
-// редактируем задачу
-function editTask(id: number) {
-  if (addMessage.value === '') {
-    // кнопочке сохранения и добавляения удалять и добавлять дисплей ноне, в зависимисти от ситуации
-    addButton.style.display = 'none';
-    addButton.textContent = '-';
-    saveBtn.style.display = 'block';
-
-    tasks.forEach(task => {
-      if (task.id == id) {
-        const editMessage = function () {
-          task.text = addMessage.value;
-
-          addMessage.value = '';
-          localStorage.setItem('todo', JSON.stringify(tasks));
-          tasksRender(JSON.parse(localStorage.getItem('todo') || ''));
-          task = '';
-          saveBtn.style.display = 'none';
-          addButton.style.display = 'block';
-          addButton.textContent = '+';
-        };
-        // Если мы находимся в режиме редактирования, то по нажатию Enter у нас происходит то же самое что
-        // и при нажатии saveBtn
-
-        window.addEventListener('keydown', event => {
-          if (addButton.textContent === '-' && event.code === 'Enter') {
-            editMessage();
-          }
-        });
-
-        // Вкидываем в инпут текст выбранной для редактируемой задачи и фокусируемся на нем
-        addMessage.value = task.text;
-        addMessage.focus();
-
-        // Когда нажимвем по кнопке сохранения, перерисовуем наш массив, с отредактировной таской
-        saveBtn.addEventListener('click', editMessage);
-      }
-    });
-  }
-}
-
-// Если у нас есть кнопка добавления(мы находимся не в режиме редактирования), то
-// при нажатии Enter происходит добавление заметки
-window.addEventListener('keydown', event => {
-  if (addButton.textContent === '+' && event.code === 'Enter') {
-    onAddButtonClick();
-  }
-});
